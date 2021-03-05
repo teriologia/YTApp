@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity
 } from 'react-native';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {PROVIDER_GOOGLE, Marker} from 'react-native-maps';
 import {useSelector, useDispatch} from 'react-redux';
 import Geolocation from '@react-native-community/geolocation';
 import {fetchData} from '../../actions'
@@ -14,6 +14,8 @@ const Home = () => {
   const dispatch = useDispatch();
   const [userLocation, setUserLocation] = useState({longitude: 0, latitude: 0})
   const videosData = useSelector(state => state.videos.data)
+  const [addedPoint, setAddedPoint] = useState(null);
+
   useEffect(() => {
     dispatch(fetchData())
     Geolocation.getCurrentPosition(
@@ -36,13 +38,23 @@ const Home = () => {
         style={{flex: 1}}
         showsMyLocationButton={true}
         showsUserLocation={true}
+        onLongPress={(coords) => {
+          setAddedPoint({longitude: coords.nativeEvent.coordinate.longitude, latitude: coords.nativeEvent.coordinate.latitude})
+          console.log(addedPoint)
+        }}
         initialRegion={{
             latitude: userLocation.latitude,
             longitude: userLocation.longitude,
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
         }}
-        />
+        >
+          {addedPoint && (
+            <Marker 
+              coordinate={addedPoint}
+            />
+          )}
+        </MapView>
         <TouchableOpacity style={styles.showButton}>
           <Text  style={styles.showButtonText}>{'Show Points'}</Text>
         </TouchableOpacity>
