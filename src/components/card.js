@@ -34,11 +34,10 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     image: {
-        width: 100,
-        height: 100
+       flex: 1.5
     },
     infoContainer: {
-        flex: 1,
+        flex: 3,
         paddingLeft: 10,
         justifyContent: 'space-between',
     },
