@@ -1,21 +1,18 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet, Image } from 'react-native';
-import moment from 'moment'
+import { publishDiff } from './cardhelper'
 
 const Card = (props) => {
-    const { title, description, channelTitle, thumbnails, publishedAt } = props.data.item.snippet
-    const published = moment(publishedAt)
-    const now = moment()
-    const hour = now.diff(published, 'hour')
-    const minutes = now.diff(published, 'minute')
+    const { title, channelTitle, thumbnails, publishedAt } = props.data.item.snippet
+    const publish = publishDiff(publishedAt)
 
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => props.onPress(props.data.item.snippet)}>
             <Image source={{ uri: thumbnails.high.url }} style={styles.image} />
             <View style={styles.infoContainer}>
                 <Text style={[styles.titleText, styles.defaultText]}>{title}</Text>
                 <Text style={styles.defaultText}>from: {channelTitle}</Text>
-                {minutes < 60 ? (<Text style={styles.defaultText}>{`${minutes} minutes ago`}</Text>) : (<Text style={styles.defaultText}>{`${hour} hour ago`}</Text>)}
+                <Text style={styles.defaultText}>{`${publish.value} ${publish.text}`}</Text>
             </View>
         </TouchableOpacity>
     )
@@ -53,7 +50,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
         paddingBottom: 10
     },
-    defaultText:{
+    defaultText: {
         color: '#FFF'
     }
 })

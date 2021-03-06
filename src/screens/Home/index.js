@@ -9,13 +9,18 @@ import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { useSelector, useDispatch } from 'react-redux';
 import Geolocation from '@react-native-community/geolocation';
 import { StackActions } from "@react-navigation/native";
-import { fetchData } from '../../actions'
+import { fetchData, increaseMaxResult } from '../../actions'
 
 const Home = (props) => {
   const dispatch = useDispatch();
   const [userLocation, setUserLocation] = useState({ longitude: 0, latitude: 0 })
   const [addedPoint, setAddedPoint] = useState(null);
   const maxResult = useSelector(state => state.videos.maxResult)
+  const defaultMaxResult = 10
+
+  useEffect(() => {
+    dispatch(increaseMaxResult(maxResult,-maxResult + defaultMaxResult))
+  },[addedPoint])
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
@@ -32,7 +37,7 @@ const Home = (props) => {
     <>
       <View style={{ flex: 1 }}>
         <View style={styles.infoContainer}>
-          <Text style={styles.infoText}>{'Click the "show points" button or press and hold on the map '}</Text>
+          <Text style={styles.infoText}>{'Click the "show points" button or press and hold on the map then click the "show points" '}</Text>
         </View>
         <MapView
           provider={PROVIDER_GOOGLE}
