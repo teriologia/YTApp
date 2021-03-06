@@ -35,6 +35,7 @@ const List = (props) => {
         <FlatList
           contentContainerStyle={{ backgroundColor: '#252525', padding: 10 }}
           data={videoData.items}
+          keyExtractor={(videoKeys) => videoKeys.id.videoId}
           onEndReached={() => maxResult < YTApiThreshold ? dispatch(increaseMaxResult(maxResult, increment)): null}
           onEndReachedThreshold={2}
           renderItem={(data) => {
