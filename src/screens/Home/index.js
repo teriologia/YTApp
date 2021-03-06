@@ -48,8 +48,8 @@ const Home = (props) => {
             setAddedPoint({ longitude: coords.nativeEvent.coordinate.longitude, latitude: coords.nativeEvent.coordinate.latitude })
           }}
           initialRegion={{
-            latitude: userLocation.latitude,
-            longitude: userLocation.longitude,
+            latitude: userLocation.latitude ? userLocation.latitude : 41.082736,
+            longitude: userLocation.longitude ? userLocation.longitude: 29.006929,
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}
