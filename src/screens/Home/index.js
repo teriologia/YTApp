@@ -15,12 +15,13 @@ const Home = (props) => {
   const dispatch = useDispatch();
   const [userLocation, setUserLocation] = useState({ longitude: 0, latitude: 0 })
   const [addedPoint, setAddedPoint] = useState(null);
+  const maxResult = useSelector(state => state.videos.maxResult)
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
       async(position) => {
         setUserLocation({ longitude: position.coords.longitude, latitude: position.coords.latitude })
-        dispatch(fetchData({ longitude: position.coords.longitude, latitude: position.coords.latitude }))
+        dispatch(fetchData({ longitude: position.coords.longitude, latitude: position.coords.latitude }, maxResult))
       },
       error => Alert.alert('Error', JSON.stringify(error)),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
@@ -60,6 +61,7 @@ const Home = (props) => {
             "List",
             {
               location: addedPoint,
+              userLocation: userLocation
             }
           );
           navigation.dispatch(replaceAction);

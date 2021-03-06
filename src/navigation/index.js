@@ -5,13 +5,19 @@ import {Home, List} from '../screens'
 
 const Stack = createStackNavigator();
 
+const headerStyle={headerStyle:{
+  backgroundColor: '#252525',
+  
+},
+headerTintColor:'#FFF'
+}
 
 function Navigation() {
     return (
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="List" component={List} />
+          <Stack.Screen name="Home" component={Home} options={headerStyle} />
+          <Stack.Screen name="List" component={List} options={headerStyle}/>
         </Stack.Navigator>
       </NavigationContainer>
     );
